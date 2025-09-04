@@ -1,53 +1,17 @@
-import 'package:bite_box/pages/auth/login_screen.dart';
-import 'package:bite_box/service/auth_service.dart';
+import 'package:bite_box/pages/auth/signup_screen.dart';
 import 'package:bite_box/widgets/my_button.dart';
-import 'package:bite_box/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 
-class SignupScreen extends StatefulWidget {
-  const SignupScreen({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
   @override
-  State<SignupScreen> createState() => _SignupScreenState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _SignupScreenState extends State<SignupScreen> {
+class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  final AuthService _authService = AuthService();
-  bool isLoading = false;
-  bool isPasswordHidden = true;
-
-  void _signUp() async {
-    //validate email format
-    String email = emailController.text.trim();
-    String password = passwordController.text.trim();
-    //validate email with formatting
-    if (!email.contains(".com")) {
-      showSnackbar(context, 'Invalid email, it must contain .com');
-    }
-    setState(() {
-      isLoading = true;
-    });
-    try {
-      await _authService.signup(email, password);
-      // success case
-      showSnackbar(context, 'Signup successful!');
-      setState(() {
-        isLoading = false;
-      });
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => LoginScreen()),
-      );
-    } catch (e) {
-      setState(() {
-        isLoading = false;
-      });
-      showSnackbar(context, 'Signup failed: $e');
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,7 +23,7 @@ class _SignupScreenState extends State<SignupScreen> {
             Image.asset(
               height: 500,
               width: double.maxFinite,
-              'assets/6343825.jpg',
+              'assets/login.jpg',
             ),
 
             TextField(
@@ -73,18 +37,13 @@ class _SignupScreenState extends State<SignupScreen> {
             SizedBox(height: 20),
 
             TextField(
-              obscureText: isPasswordHidden,
               controller: passwordController,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 suffixIcon: IconButton(
-                  icon: Icon(
-                    isPasswordHidden ? Icons.visibility : Icons.visibility_off,
-                  ),
+                  icon: Icon(Icons.visibility),
                   onPressed: () {
-                    setState(() {
-                      isPasswordHidden = !isPasswordHidden;
-                    });
+                    // Toggle password visibility
                   },
                 ),
                 labelText: 'Password',
@@ -95,9 +54,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
             SizedBox(
               width: double.maxFinite,
-              child: isLoading
-                  ? CircularProgressIndicator()
-                  : MyButton(onTap: _signUp, buttonText: 'Sign Up'),
+              child: MyButton(onTap: () {}, buttonText: 'Login'),
             ),
 
             SizedBox(height: 20),
@@ -106,18 +63,18 @@ class _SignupScreenState extends State<SignupScreen> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(
-                  'Already have an account? ',
+                  'Don\'t have an account? ',
                   style: TextStyle(fontSize: 18),
                 ),
                 GestureDetector(
                   onTap: () {
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => LoginScreen()),
+                      MaterialPageRoute(builder: (context) => SignupScreen()),
                     );
                   },
                   child: Text(
-                    'Login Here',
+                    'Signup Here',
                     style: TextStyle(
                       fontSize: 18,
                       color: Colors.blue,
