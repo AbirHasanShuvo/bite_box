@@ -1,7 +1,15 @@
-import 'package:bite_box/home_screen/home_screen.dart';
+import 'package:bite_box/pages/auth/signup_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  //supabase like firebase so i need to initialize it first
+  await Supabase.initialize(
+    url: 'https://xcmxukgmrqkfmnjnwplt.supabase.co',
+    anonKey:
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhjbXh1a2dtcnFrZm1uam53cGx0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY5NjAzNTgsImV4cCI6MjA3MjUzNjM1OH0.V-GRB8tQLtqMcXJWzGJE3LIu0DNeX-FqhqSyJt_B1WU',
+  );
   runApp(MyApp());
 }
 
@@ -10,6 +18,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: HomeScreen());
+    return MaterialApp(debugShowCheckedModeBanner: false, home: SignupScreen());
   }
 }
