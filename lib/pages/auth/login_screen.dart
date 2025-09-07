@@ -1,5 +1,8 @@
+import 'package:bite_box/pages/Home/home_screen.dart';
 import 'package:bite_box/pages/auth/signup_screen.dart';
+import 'package:bite_box/service/auth_service.dart';
 import 'package:bite_box/widgets/my_button.dart';
+import 'package:bite_box/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -12,6 +15,40 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
+  //login method
+
+  final AuthService _authService = AuthService();
+  bool isLoading = false;
+  bool isPasswordHidden = true;
+
+  void _login() async {
+    //validate email format
+    String email = emailController.text.trim();
+    String password = passwordController.text.trim();
+    if (!mounted) return;
+    setState(() {
+      isLoading = true;
+    });
+    try {
+      await _authService.login(email, password);
+      // success case
+      showSnackbar(context, 'successfully login!');
+      setState(() {
+        isLoading = false;
+      });
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => HomeScreen()),
+      );
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
+      showSnackbar(context, 'Signup failed: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,13 +74,18 @@ class _LoginScreenState extends State<LoginScreen> {
             SizedBox(height: 20),
 
             TextField(
+              obscureText: isPasswordHidden,
               controller: passwordController,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 suffixIcon: IconButton(
-                  icon: Icon(Icons.visibility),
+                  icon: Icon(
+                    isPasswordHidden ? Icons.visibility : Icons.visibility_off,
+                  ),
                   onPressed: () {
-                    // Toggle password visibility
+                    setState(() {
+                      isPasswordHidden = !isPasswordHidden;
+                    });
                   },
                 ),
                 labelText: 'Password',
@@ -54,7 +96,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
             SizedBox(
               width: double.maxFinite,
-              child: MyButton(onTap: () {}, buttonText: 'Login'),
+              child: isLoading
+                  ? CircularProgressIndicator()
+                  : MyButton(onTap: _login, buttonText: 'Login'),
             ),
 
             SizedBox(height: 20),

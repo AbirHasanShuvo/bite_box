@@ -1,5 +1,4 @@
 import 'package:bite_box/pages/auth/login_screen.dart';
-import 'package:bite_box/pages/auth/signup_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 

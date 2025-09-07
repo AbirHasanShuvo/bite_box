@@ -13,7 +13,7 @@ class AuthService {
         email: email,
       );
       if (response.user != null) {
-        return null;
+        return;
       }
       print("an unknown error occurred");
     } on AuthException catch (e) {
@@ -31,7 +31,7 @@ class AuthService {
         email: email,
       );
       if (response.user != null) {
-        return null;
+        return;
       }
       print("Invalid username or password");
     } on AuthException catch (e) {
