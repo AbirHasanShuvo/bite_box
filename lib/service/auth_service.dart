@@ -24,20 +24,41 @@ class AuthService {
   }
 
   //login function
-  Future<void> login(String email, String password) async {
+  // Future<void> login(String email, String password) async {
+  //   try {
+  //     final response = await supabase.auth.signInWithPassword(
+  //       password: password,
+  //       email: email,
+  //     );
+  //     if (response.user != null) {
+  //       return;
+  //     }
+  //     print("Invalid username or password");
+  //   } on AuthException catch (e) {
+  //     print("Auth error $e");
+  //   } catch (e) {
+  //     print("Error $e");
+  //   }
+  // }
+
+  //updated login function is here
+
+  Future<User?> login(String email, String password) async {
     try {
       final response = await supabase.auth.signInWithPassword(
         password: password,
         email: email,
       );
+
       if (response.user != null) {
-        return;
+        return response.user; // return Supabase user
+      } else {
+        throw Exception("Invalid email or password");
       }
-      print("Invalid username or password");
     } on AuthException catch (e) {
-      print("Auth error $e");
+      throw Exception(e.message); // pass error up
     } catch (e) {
-      print("Error $e");
+      throw Exception("Login failed: $e");
     }
   }
 

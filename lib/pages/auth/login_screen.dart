@@ -22,30 +22,56 @@ class _LoginScreenState extends State<LoginScreen> {
   bool isLoading = false;
   bool isPasswordHidden = true;
 
+  // void _login() async {
+  //   //validate email format
+  //   String email = emailController.text.trim();
+  //   String password = passwordController.text.trim();
+  //   if (!mounted) return;
+  //   setState(() {
+  //     isLoading = true;
+  //   });
+  //   try {
+  //     await _authService.login(email, password);
+  //     // success case
+  //     showSnackbar(context, 'successfully login!');
+  //     setState(() {
+  //       isLoading = false;
+  //     });
+  //     Navigator.pushReplacement(
+  //       context,
+  //       MaterialPageRoute(builder: (context) => HomeScreen()),
+  //     );
+  //   } catch (e) {
+  //     setState(() {
+  //       isLoading = false;
+  //     });
+  //     showSnackbar(context, 'Signup failed: $e');
+  //   }
+  // }
+
+  //updated login function
+
   void _login() async {
-    //validate email format
     String email = emailController.text.trim();
     String password = passwordController.text.trim();
+
     if (!mounted) return;
-    setState(() {
-      isLoading = true;
-    });
+    setState(() => isLoading = true);
+
     try {
-      await _authService.login(email, password);
-      // success case
-      showSnackbar(context, 'successfully login!');
-      setState(() {
-        isLoading = false;
-      });
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => HomeScreen()),
-      );
+      final user = await _authService.login(email, password);
+
+      if (user != null) {
+        showSnackbar(context, 'Successfully logged in!');
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => HomeScreen()),
+        );
+      }
     } catch (e) {
-      setState(() {
-        isLoading = false;
-      });
-      showSnackbar(context, 'Signup failed: $e');
+      showSnackbar(context, e.toString()); // show real error
+    } finally {
+      if (mounted) setState(() => isLoading = false);
     }
   }
 
