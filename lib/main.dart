@@ -1,4 +1,6 @@
+import 'package:bite_box/pages/screen/home_screen.dart';
 import 'package:bite_box/pages/auth/login_screen.dart';
+import 'package:bite_box/pages/screen/onboarding_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -18,6 +20,26 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false, home: LoginScreen());
+    return MaterialApp(debugShowCheckedModeBanner: false, home: AuthCheck());
+  }
+}
+
+class AuthCheck extends StatelessWidget {
+  final supabase = Supabase.instance.client;
+  AuthCheck({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder(
+      stream: supabase.auth.onAuthStateChange,
+      builder: (context, snapshot) {
+        final session = supabase.auth.currentSession;
+        if (session != null) {
+          return OnboardingScreen();
+        } else {
+          return LoginScreen();
+        }
+      },
+    );
   }
 }

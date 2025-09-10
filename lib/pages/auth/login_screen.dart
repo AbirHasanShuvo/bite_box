@@ -1,5 +1,6 @@
-import 'package:bite_box/pages/Home/home_screen.dart';
+import 'package:bite_box/pages/screen/home_screen.dart';
 import 'package:bite_box/pages/auth/signup_screen.dart';
+import 'package:bite_box/pages/screen/onboarding_screen.dart';
 import 'package:bite_box/service/auth_service.dart';
 import 'package:bite_box/widgets/my_button.dart';
 import 'package:bite_box/widgets/snackbar.dart';
@@ -65,7 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
         showSnackbar(context, 'Successfully logged in!');
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => HomeScreen()),
+          MaterialPageRoute(builder: (context) => OnboardingScreen()),
         );
       }
     } catch (e) {
