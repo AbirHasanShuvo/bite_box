@@ -1,4 +1,3 @@
-import 'package:bite_box/pages/screen/home_screen.dart';
 import 'package:bite_box/pages/auth/signup_screen.dart';
 import 'package:bite_box/pages/screen/onboarding_screen.dart';
 import 'package:bite_box/service/auth_service.dart';

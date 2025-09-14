@@ -1,4 +1,4 @@
-import 'package:bite_box/pages/screen/home_screen.dart';
+import 'package:bite_box/pages/screen/app_main_screen.dart';
 import 'package:bite_box/pages/auth/login_screen.dart';
 import 'package:bite_box/pages/screen/onboarding_screen.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +35,8 @@ class AuthCheck extends StatelessWidget {
       builder: (context, snapshot) {
         final session = supabase.auth.currentSession;
         if (session != null) {
-          return OnboardingScreen();
+          // return OnboardingScreen();
+          return AppMainScreen();
         } else {
           return LoginScreen();
         }

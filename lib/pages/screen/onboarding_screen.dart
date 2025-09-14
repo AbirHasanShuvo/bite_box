@@ -1,4 +1,5 @@
 import 'package:bite_box/models/on_bording_model.dart';
+import 'package:bite_box/pages/screen/food_app_home_screen.dart';
 import 'package:bite_box/utils/const.dart';
 import 'package:flutter/material.dart';
 
@@ -137,7 +138,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
                     SizedBox(height: 30),
                     MaterialButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => FoodAppHomeScreen(),
+                          ),
+                        );
+                      },
                       color: red,
                       height: 65,
                       minWidth: 250,
